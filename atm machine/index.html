@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATM Machine — Multi-Bank Cardless ATM</title>
+  <meta name="description" content="Next-Generation 16:9 Touchscreen Multi-Bank Cardless ATM Terminal with OTP Verification.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/atm-static/styles.css?v=2.0">
+</head>
+<body class="atm-body">
+
+  <!-- ==================== ATM KIOSK HARDWARE CASING (16:9 PRESENTATION) ==================== -->
+  <div class="atm-kiosk-frame">
+    
+    <!-- Physical Kiosk Bezel Header -->
+    <header class="kiosk-bezel-top">
+      <div class="kiosk-brand">
+        <div class="kiosk-logo-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <rect x="2" y="5" width="20" height="14" rx="3"></rect>
+            <line x1="2" y1="10" x2="22" y2="10"></line>
+            <circle cx="7" cy="15" r="1"></circle>
+            <circle cx="11" cy="15" r="1"></circle>
+          </svg>
+        </div>
+        <div class="kiosk-titles">
+          <span class="kiosk-title-main">ATM APP</span>
+          <span class="kiosk-title-sub">MULTI-BANK CARDLESS ATM</span>
+        </div>
+      </div>
+
+      <div class="kiosk-status-cluster">
+        <div class="kiosk-clock" id="kiosk-clock">--:--:--</div>
+      </div>
+    </header>
+
+    <!-- ==================== 16:9 TOUCHSCREEN INTERFACE ==================== -->
+    <main class="atm-screen-container" id="atm-screen">
+      
+      <!-- Toast Notification Container inside ATM Screen -->
+      <div id="atm-toast" class="atm-toast hidden" role="alert">
+        <span class="toast-icon">ℹ️</span>
+        <span class="toast-message" id="atm-toast-msg">Notification</span>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- SCREEN 1: ATM HOME SCREEN                                           -->
+      <!-- =================================================================== -->
+      <section id="screen-home" class="atm-screen active-screen">
+        <div class="home-hero-layout">
+          
+          <div class="home-hero-content">
+            <div class="home-badge-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+              <span>Unified Cardless Cash Network</span>
+            </div>
+
+            <h1 class="home-hero-title">
+              Instant Cardless<br>
+              <span class="text-gradient-blue">Cash Withdrawal</span>
+            </h1>
+
+            <p class="home-hero-subtitle">
+              Access cash from any of your linked bank accounts using your registered mobile number, secure PIN, and instant OTP verification.
+            </p>
+
+            <div class="home-action-cluster">
+              <!-- PRIMARY ACTION: ATM APP WITHDRAWAL -->
+              <button type="button" id="btn-start-cardless" class="btn-atm-primary btn-large-touch pulse-glow">
+                <div class="btn-icon-sq">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                    <rect x="2" y="5" width="20" height="14" rx="3"></rect>
+                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                    <circle cx="7" cy="15" r="1.2"></circle>
+                    <circle cx="11" cy="15" r="1.2"></circle>
+                  </svg>
+                </div>
+                <div class="btn-touch-text">
+                  <span class="touch-main">ATM APP WITHDRAWAL</span>
+                  <span class="touch-sub">Tap to begin fast cardless withdrawal &rarr;</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Visual Panel: 3D ATM Device Mockup -->
+          <div class="home-hero-visual">
+            <div class="kiosk-visual-stage">
+              <div class="orbit-glow-ring"></div>
+              <div class="floating-kiosk-card">
+                <div class="fc-header">
+                  <span class="fc-chip"></span>
+                  <span class="fc-network">UniCash</span>
+                </div>
+                <div class="fc-number">•••• •••• •••• 4521</div>
+                <div class="fc-footer">
+                  <div>
+                    <small>CARDLESS ACCESS</small>
+                    <p>MOBILE + OTP</p>
+                  </div>
+                  <div class="fc-brand">MULTI-BANK</div>
+                </div>
+              </div>
+              <div class="security-features-card">
+                <div class="sec-item">
+                  <span class="sec-icon">✓</span>
+                  <span>Zero Physical Card Risk</span>
+                </div>
+                <div class="sec-item">
+                  <span class="sec-icon">✓</span>
+                  <span>5-Minute Expiring OTP</span>
+                </div>
+                <div class="sec-item">
+                  <span class="sec-icon">✓</span>
+                  <span>Multi-Bank Selection</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- =================================================================== -->
+      <!-- SCREEN 3: ENTER REGISTERED MOBILE NUMBER                            -->
+      <!-- =================================================================== -->
+      <section id="screen-mobile" class="atm-screen hidden">
+        <div class="atm-screen-header">
+          <div class="step-indicator">STEP 1 OF 6</div>
+          <h2 class="atm-screen-title">Enter Registered Mobile Number</h2>
+          <p class="atm-screen-sub">Enter the 10-digit mobile number linked with your ATM App account.</p>
+        </div>
+
+        <div class="atm-screen-body-split">
+          <!-- Left: Input & Display -->
+          <div class="split-input-panel">
+            <div class="atm-input-card">
+              <label class="atm-field-label">Indian Mobile Number</label>
+              <div class="touch-display-box">
+                <span class="touch-prefix">+91</span>
+                <span class="touch-digits" id="display-mobile"></span>
+                <span class="cursor-blink">|</span>
+              </div>
+              <div class="touch-hint" id="mobile-error-msg">
+                Enter 10 digits starting with 6, 7, 8, or 9
+              </div>
+            </div>
+
+            <div class="screen-action-row">
+              <button type="button" id="btn-mobile-cancel" class="btn-atm-cancel">CANCEL</button>
+              <button type="button" id="btn-mobile-next" class="btn-atm-primary" disabled>
+                <span>CONTINUE</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Touchscreen Numeric Keypad -->
+          <div class="split-keypad-panel">
+            <div class="atm-keypad" data-target="mobile">
+              <button type="button" class="key-btn" data-key="1">1</button>
+              <button type="button" class="key-btn" data-key="2">2</button>
+              <button type="button" class="key-btn" data-key="3">3</button>
+              <button type="button" class="key-btn" data-key="4">4</button>
+              <button type="button" class="key-btn" data-key="5">5</button>
+              <button type="button" class="key-btn" data-key="6">6</button>
+              <button type="button" class="key-btn" data-key="7">7</button>
+              <button type="button" class="key-btn" data-key="8">8</button>
+              <button type="button" class="key-btn" data-key="9">9</button>
+              <button type="button" class="key-btn key-action key-clear" data-key="CLEAR">CLEAR</button>
+              <button type="button" class="key-btn" data-key="0">0</button>
+              <button type="button" class="key-btn key-action key-backspace" data-key="BACKSPACE">⌫</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =================================================================== -->
+      <!-- SCREEN 4: ENTER ATM APP PIN                                         -->
+      <!-- =================================================================== -->
+      <section id="screen-pin" class="atm-screen hidden">
+        <div class="atm-screen-header">
+          <div class="step-indicator">STEP 2 OF 6</div>
+          <h2 class="atm-screen-title">Enter ATM App PIN</h2>
+          <p class="atm-screen-sub">
+            Verified Mobile: <strong id="pin-screen-mobile" class="text-blue">+91 ******1234</strong>
+          </p>
+        </div>
+
+        <div class="atm-screen-body-split">
+          <!-- Left: PIN Display & Hints -->
+          <div class="split-input-panel">
+            <div class="atm-input-card">
+              <label class="atm-field-label">ATM App Security PIN</label>
+              
+              <!-- Masked PIN slot indicators -->
+              <div class="pin-slots-wrapper" id="pin-slots">
+                <div class="pin-slot" data-index="0"></div>
+                <div class="pin-slot" data-index="1"></div>
+                <div class="pin-slot" data-index="2"></div>
+                <div class="pin-slot" data-index="3"></div>
+              </div>
+
+              <div class="touch-hint" id="pin-error-msg">
+                Enter your 4-digit ATM App PIN using the keypad.
+              </div>
+            </div>
+
+            <div class="screen-action-row">
+              <button type="button" id="btn-pin-cancel" class="btn-atm-cancel">CANCEL</button>
+              <button type="button" id="btn-pin-next" class="btn-atm-primary" disabled>
+                <span>VERIFY PIN</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Touchscreen Numeric Keypad -->
+          <div class="split-keypad-panel">
+            <div class="atm-keypad" data-target="pin">
+              <button type="button" class="key-btn" data-key="1">1</button>
+              <button type="button" class="key-btn" data-key="2">2</button>
+              <button type="button" class="key-btn" data-key="3">3</button>
+              <button type="button" class="key-btn" data-key="4">4</button>
+              <button type="button" class="key-btn" data-key="5">5</button>
+              <button type="button" class="key-btn" data-key="6">6</button>
+              <button type="button" class="key-btn" data-key="7">7</button>
+              <button type="button" class="key-btn" data-key="8">8</button>
+              <button type="button" class="key-btn" data-key="9">9</button>
+              <button type="button" class="key-btn key-action key-clear" data-key="CLEAR">CLEAR</button>
+              <button type="button" class="key-btn" data-key="0">0</button>
+              <button type="button" class="key-btn key-action key-backspace" data-key="BACKSPACE">⌫</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =================================================================== -->
+      <!-- SCREEN 5: OTP VERIFICATION (CORE REQUESTED SCREEN)                  -->
+      <!-- =================================================================== -->
+      <section id="screen-otp" class="atm-screen hidden">
+        <div class="atm-screen-header">
+          <div class="step-indicator">STEP 3 OF 6 • TWO-FACTOR AUTHENTICATION</div>
+          <h2 class="atm-screen-title">OTP Verification</h2>
+          <p class="atm-screen-sub">An OTP has been sent to your <strong>ATM App</strong>. Please check your app and enter it below.</p>
+          <div class="otp-masked-banner" id="otp-masked-display">
+            OTP sent to your registered ATM App
+          </div>
+        </div>
+
+        <div class="atm-screen-body-split">
+          <!-- Left: 6-Digit OTP Boxes & Action Buttons -->
+          <div class="split-input-panel">
+            
+            <div class="otp-verification-card">
+              
+              <!-- 6-digit OTP Large Touch-Friendly Input Boxes -->
+              <div class="otp-boxes-cluster" id="otp-boxes-group">
+                <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" data-index="0" autofocus>
+                <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" data-index="1">
+                <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" data-index="2">
+                <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" data-index="3">
+                <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" data-index="4">
+                <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" data-index="5">
+              </div>
+
+              <!-- Expiry Countdown Display -->
+              <div class="otp-timer-row">
+                <div class="otp-timer-badge">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  <span>OTP expires in: <strong id="otp-countdown-timer">05:00</strong></span>
+                </div>
+                <div id="otp-status-feedback" class="otp-feedback-msg hidden"></div>
+              </div>
+
+              <!-- Buttons: VERIFY OTP, RESEND OTP, CANCEL -->
+              <div class="otp-actions-cluster">
+                
+                <!-- 1. VERIFY OTP -->
+                <button type="button" id="btn-verify-otp" class="btn-atm-primary btn-block-touch" disabled>
+                  <span class="btn-text">VERIFY OTP</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </button>
+
+                <!-- 2. RESEND OTP -->
+                <button type="button" id="btn-resend-otp" class="btn-atm-resend btn-block-touch">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                  </svg>
+                  <span id="resend-btn-text">RESEND OTP</span>
+                </button>
+
+                <!-- 3. CANCEL -->
+                <button type="button" id="btn-otp-cancel" class="btn-atm-cancel btn-block-touch">
+                  CANCEL
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Right: ATM Touchscreen Keypad for OTP -->
+          <div class="split-keypad-panel">
+            <div class="atm-keypad" data-target="otp">
+              <button type="button" class="key-btn" data-key="1">1</button>
+              <button type="button" class="key-btn" data-key="2">2</button>
+              <button type="button" class="key-btn" data-key="3">3</button>
+              <button type="button" class="key-btn" data-key="4">4</button>
+              <button type="button" class="key-btn" data-key="5">5</button>
+              <button type="button" class="key-btn" data-key="6">6</button>
+              <button type="button" class="key-btn" data-key="7">7</button>
+              <button type="button" class="key-btn" data-key="8">8</button>
+              <button type="button" class="key-btn" data-key="9">9</button>
+              <button type="button" class="key-btn key-action key-clear" data-key="CLEAR">CLEAR</button>
+              <button type="button" class="key-btn" data-key="0">0</button>
+              <button type="button" class="key-btn key-action key-backspace" data-key="BACKSPACE">⌫</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =================================================================== -->
+      <!-- SCREEN 6: SELECT BANK (DYNAMIC FROM MONGODB)                        -->
+      <!-- =================================================================== -->
+      <section id="screen-bank-select" class="atm-screen hidden">
+        <div class="atm-screen-header">
+          <div class="step-indicator">STEP 4 OF 6 • AUTHENTICATED ACCESS</div>
+          <h2 class="atm-screen-title">Select Bank Account</h2>
+          <p class="atm-screen-sub">
+            Choose the bank account to withdraw cash from for <strong id="bank-select-user-name" class="text-blue">Customer</strong>.
+          </p>
+        </div>
+
+        <div class="bank-selection-container">
+          <div id="atm-banks-grid" class="atm-banks-touch-grid">
+            <!-- Dynamically populated from MongoDB -->
+          </div>
+
+          <div class="screen-footer-center">
+            <button type="button" id="btn-bank-select-cancel" class="btn-atm-cancel">
+              CANCEL TRANSACTION
+            </button>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =================================================================== -->
+      <!-- SCREEN 7: ENTER DEMO BANK PIN                                       -->
+      <!-- =================================================================== -->
+      <section id="screen-bank-pin" class="atm-screen hidden">
+        <div class="atm-screen-header">
+          <div class="step-indicator">STEP 5 OF 6 • BANK VERIFICATION</div>
+          <h2 class="atm-screen-title">Enter Bank ATM PIN</h2>
+          <p class="atm-screen-sub">
+            Enter the 4-digit ATM PIN for <strong id="selected-bank-display-name" class="text-blue">State Bank of India</strong>
+          </p>
+        </div>
+
+        <div class="atm-screen-body-split">
+          <div class="split-input-panel">
+            <div class="atm-input-card">
+              <label class="atm-field-label">4-Digit Bank ATM PIN</label>
+              
+              <div class="pin-slots-wrapper bank-pin-slots" id="bank-pin-slots">
+                <div class="pin-slot" data-index="0"></div>
+                <div class="pin-slot" data-index="1"></div>
+                <div class="pin-slot" data-index="2"></div>
+                <div class="pin-slot" data-index="3"></div>
+              </div>
+
+              <div class="touch-hint" id="bank-pin-hint">
+                Demo Security Notice: Enter any 4-digit demo PIN (e.g. 1234)
+              </div>
+            </div>
+
+            <div class="screen-action-row">
+              <button type="button" id="btn-bank-pin-cancel" class="btn-atm-cancel">CANCEL</button>
+              <button type="button" id="btn-bank-pin-next" class="btn-atm-primary" disabled>
+                <span>PROCEED TO AMOUNT</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="split-keypad-panel">
+            <div class="atm-keypad" data-target="bankpin">
+              <button type="button" class="key-btn" data-key="1">1</button>
+              <button type="button" class="key-btn" data-key="2">2</button>
+              <button type="button" class="key-btn" data-key="3">3</button>
+              <button type="button" class="key-btn" data-key="4">4</button>
+              <button type="button" class="key-btn" data-key="5">5</button>
+              <button type="button" class="key-btn" data-key="6">6</button>
+              <button type="button" class="key-btn" data-key="7">7</button>
+              <button type="button" class="key-btn" data-key="8">8</button>
+              <button type="button" class="key-btn" data-key="9">9</button>
+              <button type="button" class="key-btn key-action key-clear" data-key="CLEAR">CLEAR</button>
+              <button type="button" class="key-btn" data-key="0">0</button>
+              <button type="button" class="key-btn key-action key-backspace" data-key="BACKSPACE">⌫</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =================================================================== -->
+      <!-- SCREEN 8: ENTER WITHDRAWAL AMOUNT                                   -->
+      <!-- =================================================================== -->
+      <section id="screen-amount" class="atm-screen hidden">
+        <div class="atm-screen-header">
+          <div class="step-indicator">STEP 6 OF 6 • DISPENSE SELECTION</div>
+          <h2 class="atm-screen-title">Enter Withdrawal Amount</h2>
+          <p class="atm-screen-sub">
+            Account: <strong id="amount-bank-summary" class="text-blue">SBI (XXXX XXXX 4521)</strong> • Daily Limit: <strong id="amount-limit-summary" class="text-emerald">₹60,000</strong>
+          </p>
+        </div>
+
+        <div class="amount-selection-layout">
+          <!-- Fast Cash Buttons Grid -->
+          <div class="fast-cash-column">
+            <span class="column-title">FAST CASH</span>
+            <div class="fast-cash-grid">
+              <button type="button" class="btn-fast-cash" data-amount="500">₹500</button>
+              <button type="button" class="btn-fast-cash" data-amount="1000">₹1,000</button>
+              <button type="button" class="btn-fast-cash" data-amount="2000">₹2,000</button>
+              <button type="button" class="btn-fast-cash" data-amount="3000">₹3,000</button>
+              <button type="button" class="btn-fast-cash" data-amount="5000">₹5,000</button>
+              <button type="button" class="btn-fast-cash" data-amount="10000">₹10,000</button>
+            </div>
+          </div>
+
+          <!-- Custom Amount & Keypad Column -->
+          <div class="custom-amount-column">
+            <span class="column-title">OTHER AMOUNT</span>
+            <div class="amount-display-card">
+              <span class="currency-symbol">₹</span>
+              <span class="amount-value" id="display-custom-amount">0</span>
+            </div>
+            <span class="amount-hint" id="amount-error-msg">Multiples of ₹100 only (Notes: ₹100, ₹200, ₹500)</span>
+
+            <!-- Keypad for Custom Amount -->
+            <div class="atm-keypad keypad-sm" data-target="amount">
+              <button type="button" class="key-btn" data-key="1">1</button>
+              <button type="button" class="key-btn" data-key="2">2</button>
+              <button type="button" class="key-btn" data-key="3">3</button>
+              <button type="button" class="key-btn" data-key="4">4</button>
+              <button type="button" class="key-btn" data-key="5">5</button>
+              <button type="button" class="key-btn" data-key="6">6</button>
+              <button type="button" class="key-btn" data-key="7">7</button>
+              <button type="button" class="key-btn" data-key="8">8</button>
+              <button type="button" class="key-btn" data-key="9">9</button>
+              <button type="button" class="key-btn key-action key-clear" data-key="CLEAR">CLEAR</button>
+              <button type="button" class="key-btn" data-key="0">0</button>
+              <button type="button" class="key-btn key-action key-backspace" data-key="BACKSPACE">⌫</button>
+            </div>
+
+            <div class="screen-action-row">
+              <button type="button" id="btn-amount-cancel" class="btn-atm-cancel">CANCEL</button>
+              <button type="button" id="btn-amount-next" class="btn-atm-primary" disabled>
+                <span>CONTINUE</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =================================================================== -->
+      <!-- SCREEN 9: CONFIRM WITHDRAWAL                                        -->
+      <!-- =================================================================== -->
+      <section id="screen-confirm" class="atm-screen hidden">
+        <div class="atm-screen-header">
+          <div class="step-indicator">TRANSACTION SUMMARY</div>
+          <h2 class="atm-screen-title">Confirm Cash Withdrawal</h2>
+          <p class="atm-screen-sub">Please review and confirm your withdrawal details before notes are dispensed.</p>
+        </div>
+
+        <div class="confirm-receipt-container">
+          <div class="receipt-card">
+            <div class="receipt-header">
+              <div class="receipt-brand">ATM APP • UniCash</div>
+              <div class="receipt-terminal">TERMINAL: ATM-BLR-042</div>
+            </div>
+
+            <div class="receipt-divider"></div>
+
+            <div class="receipt-row">
+              <span class="rc-label">Customer Name</span>
+              <span class="rc-value" id="rc-customer-name">Arun Kumar</span>
+            </div>
+            <div class="receipt-row">
+              <span class="rc-label">Bank Institution</span>
+              <span class="rc-value" id="rc-bank-name">State Bank of India</span>
+            </div>
+            <div class="receipt-row">
+              <span class="rc-label">Account Number</span>
+              <span class="rc-value font-mono" id="rc-bank-acc">XXXX XXXX 4521</span>
+            </div>
+            <div class="receipt-row">
+              <span class="rc-label">Authentication Method</span>
+              <span class="rc-value text-emerald">App PIN + OTP Verified ✓</span>
+            </div>
+            <div class="receipt-row">
+              <span class="rc-label">ATM Convenience Fee</span>
+              <span class="rc-value text-emerald">₹0.00 (FREE)</span>
+            </div>
+
+            <div class="receipt-divider"></div>
+
+            <div class="receipt-total-row">
+              <span class="rt-label">WITHDRAWAL AMOUNT:</span>
+              <span class="rt-val" id="rc-total-amount">₹2,000.00</span>
+            </div>
+          </div>
+
+          <div class="confirm-actions-row">
+            <button type="button" id="btn-confirm-cancel" class="btn-atm-cancel btn-large-touch">
+              CANCEL
+            </button>
+            <button type="button" id="btn-confirm-dispense" class="btn-atm-primary btn-large-touch pulse-glow">
+              <span class="btn-text">CONFIRM & DISPENSE CASH</span>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =================================================================== -->
+      <!-- SCREEN 10: TRANSACTION SUCCESS & CASH DISPENSED                     -->
+      <!-- =================================================================== -->
+      <section id="screen-success" class="atm-screen hidden">
+        <div class="success-stage-layout">
+          
+          <div class="success-icon-badge">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+
+          <h2 class="success-title">Cash Dispensed Successfully!</h2>
+          <p class="success-sub">Please collect your cash and printed receipt below.</p>
+
+          <!-- Animated Cash Dispenser Slot -->
+          <div class="cash-dispenser-simulator">
+            <div class="slot-opening">
+              <div class="currency-bill-animation">
+                <div class="bill-face">
+                  <span>₹500</span>
+                  <small>RESERVE BANK OF INDIA</small>
+                </div>
+              </div>
+            </div>
+            <span class="slot-label">⚡ CASH DISPENSER ACTIVE • PLEASE TAKE CASH</span>
+          </div>
+
+          <div class="success-details-card">
+            <div class="sd-row">
+              <span>Transaction Ref:</span>
+              <strong id="sd-txn-id" class="font-mono">TXN-ATM-892147</strong>
+            </div>
+            <div class="sd-row">
+              <span>Amount Dispensed:</span>
+              <strong id="sd-amount" class="text-emerald font-mono">₹2,000.00</strong>
+            </div>
+            <div class="sd-row">
+              <span>Debited Bank:</span>
+              <strong id="sd-bank">State Bank of India (XXXX 4521)</strong>
+            </div>
+            <div class="sd-row">
+              <span>Date & Time:</span>
+              <span id="sd-timestamp">2026-09-12 21:15:00 UTC</span>
+            </div>
+          </div>
+
+          <div class="success-actions-row">
+            <button type="button" id="btn-print-receipt" class="btn-atm-secondary btn-large-touch">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+              </svg>
+              <span>PRINT RECEIPT</span>
+            </button>
+
+            <button type="button" id="btn-new-transaction" class="btn-atm-primary btn-large-touch">
+              <span>FINISH / NEW TRANSACTION</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <script src="/atm-static/atm.js?v=2.0"></script>
+</body>
+</html>

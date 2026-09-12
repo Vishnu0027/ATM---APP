@@ -1,0 +1,10 @@
+{
+  "name": "multi-bank-cardless-atm",
+  "version": "1.0.0",
+  "description": "Multi-Bank Cardless ATM Platform",
+  "scripts": {
+    "dev": "powershell -ExecutionPolicy Bypass -File \"ATM user/start.ps1\"",
+    "start": "powershell -ExecutionPolicy Bypass -File \"ATM user/start.ps1\"",
+    "atm": "powershell -ExecutionPolicy Bypass -File \"atm machine/start.ps1\""
+  }
+}

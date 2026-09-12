@@ -1,0 +1,9 @@
+{
+  "name": "atm-machine-terminal",
+  "version": "1.0.0",
+  "description": "Standalone Touchscreen ATM Machine Terminal Server",
+  "scripts": {
+    "start": "powershell -ExecutionPolicy Bypass -File .\\start.ps1",
+    "dev": "powershell -ExecutionPolicy Bypass -File .\\start.ps1"
+  }
+}

@@ -1,0 +1,1632 @@
+/* ==========================================================================
+   MULTI-BANK CARDLESS ATM — TOUCHSCREEN TERMINAL DESIGN SYSTEM
+   Exact Match to User ATM Web App (Fintech Light Luxury Aesthetic)
+   16:9 Touchscreen Form Factor with Physical ATM Kiosk Hardware Frame
+   ========================================================================== */
+
+:root {
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Space Grotesk', monospace;
+
+  /* Color Palette - Exactly identical to User ATM App */
+  --bg-page: #f0f5ff;
+  --bg-page-gradient: linear-gradient(135deg, #eef5ff 0%, #e3effe 45%, #f8fbff 100%);
+  --surface-card: #ffffff;
+  --surface-subcard: #f8fafc;
+  --surface-hover: #f1f5f9;
+  
+  /* Borders */
+  --border-light: rgba(226, 232, 240, 0.85);
+  --border-focus: #1d4ed8;
+  --border-card: rgba(203, 213, 225, 0.6);
+
+  /* Primary Blue Gradients */
+  --brand-blue: #1d4ed8;
+  --brand-sky: #0ea5e9;
+  --brand-gradient: linear-gradient(135deg, #1d4ed8 0%, #0ea5e9 100%);
+  --brand-gradient-hover: linear-gradient(135deg, #1e40af 0%, #0284c7 100%);
+  --brand-glow: 0 10px 28px rgba(29, 78, 216, 0.32);
+
+  /* Text Colors */
+  --text-dark: #0f172a;
+  --text-body: #334155;
+  --text-muted: #64748b;
+  --text-light: #94a3b8;
+  --text-blue: #1d4ed8;
+
+  /* Accents */
+  --accent-cyan: #0284c7;
+  --accent-emerald: #10b981;
+  --accent-purple: #8b5cf6;
+  --accent-amber: #f59e0b;
+  --accent-rose: #ef4444;
+
+  /* Hardware Kiosk Metallic Colors */
+  --kiosk-outer: #0f172a;
+  --kiosk-bezel: #1e293b;
+  --kiosk-metal-trim: #334155;
+
+  /* Shadows */
+  --shadow-card: 0 25px 70px rgba(37, 99, 235, 0.08), 0 8px 24px rgba(15, 23, 42, 0.04);
+  --shadow-card-hover: 0 32px 80px rgba(37, 99, 235, 0.14), 0 12px 30px rgba(15, 23, 42, 0.06);
+  --shadow-key: 0 4px 12px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.04);
+  --shadow-key-pressed: 0 1px 2px rgba(15, 23, 42, 0.12);
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body.atm-body {
+  min-height: 100vh;
+  background: #090d16;
+  font-family: var(--font-main);
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   16:9 ATM KIOSK HARDWARE CASING
+   ========================================================================== */
+.atm-kiosk-frame {
+  width: 100%;
+  max-width: 1360px;
+  aspect-ratio: 16 / 9.8;
+  min-height: 720px;
+  background: #1e293b;
+  border-radius: 28px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(255, 255, 255, 0.08), inset 0 2px 4px rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Top Bezel */
+.kiosk-bezel-top {
+  height: 58px;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  flex-shrink: 0;
+}
+
+.kiosk-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.kiosk-logo-badge {
+  width: 36px;
+  height: 36px;
+  background: var(--brand-gradient);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.4);
+}
+
+.kiosk-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.kiosk-title-main {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.kiosk-title-sub {
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--brand-sky);
+}
+
+.kiosk-status-cluster {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #34d399;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.76rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.kiosk-clock {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   TOUCHSCREEN VIEWPORT (LIGHT FINTECH AESTHETIC)
+   ========================================================================== */
+.atm-screen-container {
+  flex: 1;
+  background: var(--bg-page-gradient);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 24px 36px;
+}
+
+/* Active Screen Management */
+.atm-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  animation: fadeInScreen 0.28s ease forwards;
+}
+
+.atm-screen.hidden {
+  display: none !important;
+}
+
+@keyframes fadeInScreen {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Screen Headers */
+.atm-screen-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.step-indicator {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--accent-cyan);
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 8px;
+}
+
+.atm-screen-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.atm-screen-sub {
+  font-size: 1.02rem;
+  color: var(--text-muted);
+}
+
+.text-blue { color: var(--brand-blue); }
+.text-emerald { color: var(--accent-emerald); }
+.font-mono { font-family: var(--font-mono); }
+
+/* ==========================================================================
+   DEVELOPER DEMO OTP BANNER & TOAST
+   ========================================================================== */
+.demo-otp-banner {
+  background: #eff6ff;
+  border: 1.5px solid #60a5fa;
+  border-radius: var(--radius-md);
+  padding: 10px 18px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.12);
+  animation: slideDown 0.3s ease;
+}
+
+.demo-otp-banner.hidden { display: none; }
+
+.demo-otp-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.demo-badge {
+  background: var(--brand-blue);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.demo-text {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+}
+
+.demo-text strong {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  color: var(--brand-blue);
+  letter-spacing: 0.15em;
+  background: #ffffff;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid #bfdbfe;
+}
+
+.btn-autofill-otp {
+  background: #ffffff;
+  border: 1.5px solid #2563eb;
+  color: var(--brand-blue);
+  font-family: var(--font-main);
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.15);
+}
+
+.btn-autofill-otp:hover {
+  background: #dbeafe;
+  transform: translateY(-1px);
+}
+
+/* ATM Toast Notifications */
+.atm-toast {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-left: 5px solid var(--brand-blue);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18);
+  border-radius: var(--radius-md);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1000;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  animation: slideToast 0.3s ease;
+}
+
+.atm-toast.hidden { display: none; }
+.atm-toast.error { border-left-color: var(--accent-rose); }
+.atm-toast.success { border-left-color: var(--accent-emerald); }
+
+@keyframes slideToast {
+  from { opacity: 0; transform: translate(-50%, -20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ==========================================================================
+   SCREEN 1: HOME SCREEN HERO
+   ========================================================================== */
+.home-hero-layout {
+  display: grid;
+  grid-template-columns: 1.25fr 0.9fr;
+  gap: 36px;
+  height: 100%;
+  align-items: center;
+}
+
+.home-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: var(--brand-blue);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.84rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.home-hero-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  margin-bottom: 14px;
+}
+
+.text-gradient-blue {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.home-hero-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 28px;
+  max-width: 540px;
+}
+
+.home-action-cluster {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* High-Impact ATM Action Buttons */
+.btn-atm-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--brand-gradient);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 16px 28px;
+  font-family: var(--font-main);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--brand-glow);
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.btn-atm-primary:hover:not(:disabled) {
+  background: var(--brand-gradient-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(29, 78, 216, 0.42);
+}
+
+.btn-atm-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-atm-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-large-touch {
+  padding: 20px 32px;
+  border-radius: var(--radius-lg);
+}
+
+#btn-start-cardless {
+  max-width: 480px;
+  padding: 18px 24px;
+  justify-content: flex-start;
+}
+
+.btn-icon-sq {
+  width: 52px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn-touch-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.touch-main {
+  font-size: 1.28rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.touch-sub {
+  font-size: 0.84rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.pulse-glow {
+  animation: pulseGlow 2.5s infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 10px 28px rgba(29, 78, 216, 0.32); }
+  50% { box-shadow: 0 14px 42px rgba(29, 78, 216, 0.55); }
+}
+
+.home-secondary-row {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-atm-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1.5px solid var(--border-light);
+  color: var(--text-dark);
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-main);
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.btn-atm-secondary:hover {
+  background: var(--surface-subcard);
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.btn-atm-cancel {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  color: #64748b;
+  padding: 14px 24px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-main);
+  font-size: 0.96rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-atm-cancel:hover {
+  border-color: #fca5a5;
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+.home-banks-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.strip-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--text-light);
+}
+
+.bank-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bank-mini-pill {
+  padding: 5px 12px;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.03);
+}
+
+.bank-mini-pill.sbi { color: #0b2f6d; border-color: #93c5fd; }
+.bank-mini-pill.canara { color: #0284c7; border-color: #7dd3fc; }
+.bank-mini-pill.kvb { color: #065f46; border-color: #a7f3d0; }
+
+/* Right Visual Mockup */
+.home-hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.kiosk-visual-stage {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.floating-kiosk-card {
+  width: 100%;
+  aspect-ratio: 1.58;
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #0ea5e9 100%);
+  border-radius: 20px;
+  padding: 24px;
+  color: #ffffff;
+  box-shadow: 0 24px 60px rgba(29, 78, 216, 0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.floating-kiosk-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.fc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fc-chip {
+  width: 44px;
+  height: 32px;
+  background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+  border-radius: 6px;
+}
+
+.fc-network {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+}
+
+.fc-number {
+  font-family: var(--font-mono);
+  font-size: 1.28rem;
+  letter-spacing: 0.22em;
+}
+
+.fc-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.fc-footer small {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
+
+.fc-footer p {
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+
+.fc-brand {
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+}
+
+.security-features-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sec-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text-body);
+}
+
+.sec-icon {
+  width: 22px;
+  height: 22px;
+  background: #d1fae5;
+  color: #059669;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   COMMON SPLIT SCREENS (INPUT + KEYPAD)
+   ========================================================================== */
+.atm-screen-body-split {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 36px;
+  flex: 1;
+  align-items: center;
+  max-width: 1060px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.split-input-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.atm-input-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.atm-field-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.touch-display-box {
+  display: flex;
+  align-items: center;
+  background: var(--surface-subcard);
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
+  min-height: 64px;
+  transition: all var(--transition-fast);
+}
+
+.touch-display-box:focus-within, .touch-display-box.active {
+  border-color: var(--brand-blue);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.1);
+}
+
+.touch-prefix {
+  font-family: var(--font-mono);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--brand-blue);
+  margin-right: 14px;
+  padding-right: 14px;
+  border-right: 2px solid var(--border-light);
+}
+
+.touch-digits {
+  font-family: var(--font-mono);
+  font-size: 1.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text-dark);
+  flex: 1;
+}
+
+.cursor-blink {
+  font-size: 1.6rem;
+  color: var(--brand-blue);
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.touch-hint {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.touch-hint.error {
+  color: var(--accent-rose);
+  font-weight: 600;
+}
+
+.demo-helpers-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dh-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.btn-demo-quick {
+  background: #ffffff;
+  border: 1.5px solid #bfdbfe;
+  color: var(--brand-blue);
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-main);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-demo-quick:hover {
+  background: #dbeafe;
+  border-color: var(--brand-blue);
+}
+
+.screen-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+/* ==========================================================================
+   TOUCHSCREEN NUMERIC KEYPAD
+   ========================================================================== */
+.split-keypad-panel {
+  display: flex;
+  justify-content: center;
+}
+
+.atm-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  padding: 22px;
+  box-shadow: var(--shadow-card);
+  width: 100%;
+  max-width: 320px;
+}
+
+.keypad-sm {
+  max-width: 260px;
+  gap: 10px;
+  padding: 14px;
+}
+
+.key-btn {
+  aspect-ratio: 1.15;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-key);
+  transition: all var(--transition-fast);
+}
+
+.key-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+}
+
+.key-btn:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-key-pressed);
+  background: #f1f5f9;
+}
+
+.key-action {
+  font-family: var(--font-main);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.key-clear {
+  color: #dc2626;
+  border-color: #fecaca;
+  background: #fff5f5;
+}
+
+.key-clear:hover {
+  background: #fee2e2;
+  border-color: #f87171;
+}
+
+.key-backspace {
+  font-size: 1.3rem;
+  color: #475569;
+}
+
+/* ==========================================================================
+   PIN ENTRY SLOTS
+   ========================================================================== */
+.pin-slots-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 18px 0;
+}
+
+.pin-slot {
+  width: 48px;
+  height: 56px;
+  background: var(--surface-subcard);
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--brand-blue);
+  transition: all var(--transition-fast);
+}
+
+.pin-slot.filled {
+  border-color: var(--brand-blue);
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.15);
+}
+
+.pin-slot.filled::after {
+  content: '●';
+  font-size: 1.2rem;
+  color: var(--brand-blue);
+}
+
+.pin-slot.active-focus {
+  border-color: var(--brand-sky);
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2);
+}
+
+.demo-pin-hint-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  color: #166534;
+}
+
+/* ==========================================================================
+   SCREEN 5: OTP VERIFICATION (CORE PROMPT FOCUS)
+   ========================================================================== */
+.otp-masked-banner {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--brand-blue);
+  background: #eff6ff;
+  border: 1.5px solid #bfdbfe;
+  padding: 8px 24px;
+  border-radius: var(--radius-pill);
+  margin-top: 10px;
+}
+
+.otp-verification-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  padding: 32px 36px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+
+/* 6 Large Touch-Friendly OTP Digit Boxes */
+.otp-boxes-cluster {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.otp-box {
+  width: 62px;
+  height: 72px;
+  background: var(--surface-subcard);
+  border: 2px solid #cbd5e1;
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  text-align: center;
+  outline: none;
+  transition: all var(--transition-fast);
+  box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.04);
+}
+
+.otp-box:focus, .otp-box.active-box {
+  border-color: var(--brand-blue);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.15), 0 8px 20px rgba(29, 78, 216, 0.12);
+  transform: translateY(-2px);
+}
+
+.otp-box.filled {
+  border-color: var(--brand-blue);
+  color: var(--brand-blue);
+  background: #ffffff;
+}
+
+.otp-box.error-box {
+  border-color: var(--accent-rose);
+  background: #fef2f2;
+  color: var(--accent-rose);
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* Timer and Feedback */
+.otp-timer-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.otp-timer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--surface-subcard);
+  border: 1px solid var(--border-light);
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+}
+
+.otp-timer-badge strong {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  color: var(--brand-blue);
+}
+
+.otp-feedback-msg {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.otp-feedback-msg.error { color: var(--accent-rose); }
+.otp-feedback-msg.success { color: var(--accent-emerald); }
+
+/* OTP Action Buttons */
+.otp-actions-cluster {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.btn-block-touch {
+  width: 100%;
+  padding: 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-atm-resend {
+  background: #eff6ff;
+  border: 1.5px solid #bfdbfe;
+  color: var(--brand-blue);
+  font-family: var(--font-main);
+  font-weight: 700;
+}
+
+.btn-atm-resend:hover:not(:disabled) {
+  background: #dbeafe;
+  border-color: var(--brand-blue);
+}
+
+.btn-atm-resend:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  color: var(--text-light);
+  border-color: #e2e8f0;
+  background: #f8fafc;
+}
+
+/* ==========================================================================
+   SCREEN 6: SELECT BANK (DYNAMIC FROM MONGODB)
+   ========================================================================== */
+.bank-selection-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1080px;
+  margin: 0 auto;
+  width: 100%;
+  align-items: center;
+}
+
+.atm-banks-touch-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  width: 100%;
+}
+
+.atm-bank-card {
+  aspect-ratio: 1.5;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  color: #ffffff;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.atm-bank-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.atm-bank-card.selected {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 4px #2563eb, 0 24px 60px rgba(37, 99, 235, 0.35);
+  transform: translateY(-4px);
+}
+
+.bc-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.bc-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  max-width: 180px;
+  line-height: 1.2;
+}
+
+.bc-badge {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.bc-middle {
+  font-family: var(--font-mono);
+  font-size: 1.12rem;
+  letter-spacing: 0.15em;
+}
+
+.bc-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.bc-limit-label {
+  font-size: 0.65rem;
+  opacity: 0.85;
+  letter-spacing: 0.05em;
+}
+
+.bc-limit-val {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.bc-tap-label {
+  font-size: 0.76rem;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.screen-footer-center {
+  margin-top: 12px;
+}
+
+/* ==========================================================================
+   SCREEN 8: WITHDRAWAL AMOUNT
+   ========================================================================== */
+.amount-selection-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+  align-items: center;
+}
+
+.column-title {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.fast-cash-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.btn-fast-cash {
+  background: #ffffff;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 18px 12px;
+  font-family: var(--font-mono);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+  transition: all var(--transition-fast);
+}
+
+.btn-fast-cash:hover {
+  border-color: var(--brand-blue);
+  background: #eff6ff;
+  color: var(--brand-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(29, 78, 216, 0.15);
+}
+
+.btn-fast-cash.selected {
+  background: var(--brand-gradient);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: var(--brand-glow);
+}
+
+.custom-amount-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.amount-display-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 12px 24px;
+  width: 100%;
+  max-width: 260px;
+  box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.05);
+}
+
+.currency-symbol {
+  font-family: var(--font-mono);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--brand-blue);
+}
+
+.amount-value {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.amount-hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ==========================================================================
+   SCREEN 9: CONFIRMATION RECEIPT
+   ========================================================================== */
+.confirm-receipt-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  max-width: 580px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.receipt-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  box-shadow: var(--shadow-card);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.receipt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.receipt-brand {
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--brand-blue);
+}
+
+.receipt-terminal {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.receipt-divider {
+  height: 1px;
+  background: var(--border-light);
+  margin: 4px 0;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.rc-label {
+  color: var(--text-muted);
+}
+
+.rc-value {
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.receipt-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 6px;
+}
+
+.rt-label {
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--text-dark);
+}
+
+.rt-val {
+  font-family: var(--font-mono);
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--brand-blue);
+}
+
+.confirm-actions-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+.confirm-actions-row button {
+  flex: 1;
+}
+
+/* ==========================================================================
+   SCREEN 10: SUCCESS & CASH DISPENSER SIMULATOR
+   ========================================================================== */
+.success-stage-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+  max-width: 680px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.success-icon-badge {
+  width: 80px;
+  height: 80px;
+  background: #d1fae5;
+  color: #059669;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 30px rgba(16, 185, 129, 0.25);
+  animation: scaleSuccess 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes scaleSuccess {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.success-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-dark);
+}
+
+.success-sub {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+}
+
+/* Cash Dispenser Slot Simulator */
+.cash-dispenser-simulator {
+  width: 100%;
+  max-width: 480px;
+  background: #0f172a;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.slot-opening {
+  width: 90%;
+  height: 24px;
+  background: #020617;
+  border-radius: 4px;
+  border: 1px solid #334155;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.5);
+  overflow: hidden;
+  position: relative;
+}
+
+.currency-bill-animation {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  width: 80%;
+  height: 100%;
+  background: #10b981;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: #064e3b;
+  font-weight: 800;
+  font-size: 0.72rem;
+  animation: dispenseSlide 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes dispenseSlide {
+  0% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.slot-label {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #34d399;
+  letter-spacing: 0.08em;
+}
+
+.success-details-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 16px 24px;
+  box-shadow: var(--shadow-card);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.92rem;
+}
+
+.sd-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sd-row span { color: var(--text-muted); }
+.sd-row strong { color: var(--text-dark); }
+
+.success-actions-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+.success-actions-row button { flex: 1; }
+
+/* ==========================================================================
+   PHYSICAL KIOSK BEZEL FOOTER
+   ========================================================================== */
+.kiosk-bezel-bottom {
+  height: 52px;
+  background: linear-gradient(0deg, #1e293b 0%, #0f172a 100%);
+  border-top: 2px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 32px;
+  flex-shrink: 0;
+}
+
+.hardware-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  font-family: var(--font-mono);
+}
+
+.hardware-light {
+  width: 7px;
+  height: 7px;
+  background: #475569;
+  border-radius: 50%;
+}
+
+.hardware-light.green {
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .atm-kiosk-frame {
+    aspect-ratio: auto;
+    min-height: 100vh;
+    border-radius: 0;
+  }
+  .home-hero-layout {
+    grid-template-columns: 1fr;
+  }
+  .home-hero-visual {
+    display: none;
+  }
+  .atm-screen-body-split {
+    grid-template-columns: 1fr;
+  }
+  .split-keypad-panel {
+    order: 2;
+  }
+  .atm-banks-touch-grid {
+    grid-template-columns: 1fr;
+  }
+}

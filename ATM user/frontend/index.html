@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATM APP — Multi-Bank Cardless ATM</title>
+  <meta name="description" content="One App. Many Banks. Greater Access. Secure, unified cardless ATM platform allowing seamless access to multiple bank accounts without physical cards.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css?v=3.1">
+</head>
+<body>
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- ==================== AUTH SECTION (LANDING + LOGIN + REGISTER) ==================== -->
+  <main id="auth-section" class="auth-landing-page">
+    
+    <!-- Top Navigation Header -->
+    <header class="landing-top-bar">
+      <div class="landing-brand">
+        <div class="brand-icon-sq">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <rect x="2" y="5" width="20" height="14" rx="3"></rect>
+            <line x1="2" y1="10" x2="22" y2="10"></line>
+            <circle cx="7" cy="15" r="1"></circle>
+            <circle cx="11" cy="15" r="1"></circle>
+          </svg>
+        </div>
+        <div class="brand-titles">
+          <h1 class="brand-main-title">ATM APP</h1>
+          <span class="brand-sub-title">MULTI-BANK CARDLESS ATM</span>
+        </div>
+      </div>
+      <div class="landing-tagline">
+        One App. Many Banks. Greater Access.
+      </div>
+    </header>
+
+    <!-- 3-Column Hero Content Grid -->
+    <div class="landing-hero-grid">
+      
+      <!-- LEFT COLUMN: Value Proposition & Features -->
+      <section class="hero-col-left">
+        <div class="hero-text-block">
+          <h2 class="hero-headline">
+            Banking<br>
+            <span class="text-gradient-blue">Made Simple</span>
+          </h2>
+          <p class="hero-subheadline">
+            Secure. Convenient.<br>
+            Cardless. For Everyone.
+          </p>
+        </div>
+
+        <div class="features-vertical-list">
+          <!-- Feature 1 -->
+          <div class="feature-item">
+            <div class="feature-icon-circle bg-cyan-light">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+            </div>
+            <div class="feature-info">
+              <h3 class="feature-title">Instant Access</h3>
+              <p class="feature-desc">Quick and easy transactions</p>
+            </div>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="feature-item">
+            <div class="feature-icon-circle bg-emerald-light">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <polyline points="9 12 11 14 15 10"></polyline>
+              </svg>
+            </div>
+            <div class="feature-info">
+              <h3 class="feature-title">Secure & Trusted</h3>
+              <p class="feature-desc">Your data is protected</p>
+            </div>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="feature-item">
+            <div class="feature-icon-circle bg-purple-light">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <div class="feature-info">
+              <h3 class="feature-title">Multiple Banks</h3>
+              <p class="feature-desc">One app for all your accounts</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-footer-tag">
+          <div class="accent-line"></div>
+          <div class="tag-texts">
+            <span>SMART BANKING</span>
+            <small>FOR A BETTER TOMORROW</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- CENTER COLUMN: Premium Floating Login / Registration Card -->
+      <section class="hero-col-center">
+        <div class="floating-auth-card">
+          
+          <!-- Card Header Logo -->
+          <div class="card-brand-header">
+            <div class="brand-icon-sq sm">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                <rect x="2" y="5" width="20" height="14" rx="3"></rect>
+                <line x1="2" y1="10" x2="22" y2="10"></line>
+                <circle cx="7" cy="15" r="1"></circle>
+                <circle cx="11" cy="15" r="1"></circle>
+              </svg>
+            </div>
+            <div class="brand-titles">
+              <h2 class="card-brand-title">ATM APP</h2>
+              <span class="card-brand-sub">MULTI-BANK CARDLESS ATM</span>
+            </div>
+          </div>
+
+          <!-- ================= LOGIN VIEW ================= -->
+          <div id="login-view" class="auth-view active-view">
+            <div class="auth-view-header">
+              <h3 class="auth-heading">Welcome Back</h3>
+              <p class="auth-subheading">Access your unified multi-bank cardless account.</p>
+            </div>
+
+            <div id="login-alert" class="alert-box alert-error hidden" role="alert"></div>
+
+            <form id="login-form" class="auth-form" autocomplete="off" novalidate>
+              <!-- Hidden dummy fields to prevent aggressive browser autofill -->
+              <input type="text" name="fake_user_autofill_trap" style="position:absolute;top:-9999px;left:-9999px;opacity:0;width:0;height:0;pointer-events:none;" tabindex="-1" autocomplete="off">
+              <input type="password" name="fake_pwd_autofill_trap" style="position:absolute;top:-9999px;left:-9999px;opacity:0;width:0;height:0;pointer-events:none;" tabindex="-1" autocomplete="new-password">
+              
+              <!-- 1. USER NAME -->
+              <div class="form-group">
+                <label for="login-username" class="input-label">User Name</label>
+                <div class="input-field-wrapper">
+                  <span class="field-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                  </span>
+                  <input 
+                    type="text" 
+                    id="login-username" 
+                    name="user_name" 
+                    class="form-control" 
+                    placeholder="Enter user name" 
+                    autocomplete="off"
+                    value=""
+                  >
+                </div>
+                <span class="field-hint" id="login-username-error"></span>
+              </div>
+
+              <!-- 2. Email Address (After User Name) -->
+              <div class="form-group">
+                <label for="login-email" class="input-label">Email Address</label>
+                <div class="input-field-wrapper">
+                  <span class="field-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                    </svg>
+                  </span>
+                  <input 
+                    type="email" 
+                    id="login-email" 
+                    name="email" 
+                    class="form-control" 
+                    placeholder="e.g. name@example.com" 
+                    autocomplete="off"
+                    value=""
+                  >
+                </div>
+                <span class="field-hint" id="login-email-error"></span>
+              </div>
+
+              <!-- 3. Phone Number -->
+              <div class="form-group">
+                <label for="login-mobile" class="input-label">Phone Number</label>
+                <div class="input-field-wrapper input-with-prefix">
+                  <span class="country-prefix">+91</span>
+                  <input 
+                    type="tel" 
+                    id="login-mobile" 
+                    name="mobile" 
+                    class="form-control" 
+                    placeholder="9876543210" 
+                    maxlength="10" 
+                    inputmode="numeric"
+                    autocomplete="off"
+                    value=""
+                  >
+                </div>
+                <span class="field-hint" id="login-mobile-error"></span>
+              </div>
+
+              <!-- 4. PIN (Numbers Only) -->
+              <div class="form-group">
+                <div class="label-row">
+                  <label for="login-password" class="input-label">PIN</label>
+                  <button type="button" id="forgot-password-btn" class="link-btn-blue">Forgot PIN?</button>
+                </div>
+                <div class="input-field-wrapper">
+                  <span class="field-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                  </span>
+                  <input 
+                    type="password" 
+                    id="login-password" 
+                    name="password" 
+                    class="form-control pin-input" 
+                    placeholder="Enter PIN" 
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    maxlength="6"
+                    required 
+                    autocomplete="new-password"
+                    value=""
+                  >
+                  <button type="button" class="password-toggle-btn" data-target="login-password" title="Toggle PIN visibility">
+                    <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <svg class="eye-closed hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                      <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                  </button>
+                </div>
+                <span class="field-hint" id="login-password-error"></span>
+              </div>
+
+              <!-- Sign In Button -->
+              <button type="submit" id="login-submit-btn" class="btn-primary-gradient btn-block">
+                <span class="btn-text">Sign In to ATM &rarr;</span>
+                <span class="btn-spinner hidden"></span>
+              </button>
+
+              <div class="auth-switch-footer">
+                <span>Don't have an account yet?</span>
+                <button type="button" id="switch-to-register" class="link-bold-blue">Create Account</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- ================= REGISTRATION VIEW ================= -->
+          <div id="register-view" class="auth-view">
+            <div class="auth-view-header">
+              <h3 class="auth-heading">Create Account</h3>
+              <p class="auth-subheading">Register securely to manage your accounts cardlessly.</p>
+            </div>
+
+            <div id="register-alert" class="alert-box alert-error hidden" role="alert"></div>
+
+            <form id="register-form" class="auth-form" autocomplete="off" novalidate>
+              <!-- Hidden dummy fields to prevent aggressive browser autofill -->
+              <input type="text" name="fake_reg_autofill_trap" style="position:absolute;top:-9999px;left:-9999px;opacity:0;width:0;height:0;pointer-events:none;" tabindex="-1" autocomplete="off">
+              <input type="password" name="fake_reg_pwd_trap" style="position:absolute;top:-9999px;left:-9999px;opacity:0;width:0;height:0;pointer-events:none;" tabindex="-1" autocomplete="new-password">
+              
+              <!-- 1. User Name -->
+              <div class="form-group">
+                <label for="reg-name" class="input-label">User Name</label>
+                <div class="input-field-wrapper">
+                  <span class="field-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                  </span>
+                  <input 
+                    type="text" 
+                    id="reg-name" 
+                    name="full_name" 
+                    class="form-control" 
+                    placeholder="Enter your user name" 
+                    autocomplete="off"
+                    value=""
+                    required
+                  >
+                </div>
+                <span class="field-hint" id="reg-name-error"></span>
+              </div>
+
+              <!-- 2. Email Address (Added after User Name) -->
+              <div class="form-group">
+                <label for="reg-email" class="input-label">Email Address</label>
+                <div class="input-field-wrapper">
+                  <span class="field-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                    </svg>
+                  </span>
+                  <input 
+                    type="email" 
+                    id="reg-email" 
+                    name="email" 
+                    class="form-control" 
+                    placeholder="e.g. name@example.com" 
+                    autocomplete="off"
+                    value=""
+                    required
+                  >
+                </div>
+                <span class="field-hint" id="reg-email-error"></span>
+              </div>
+
+              <!-- 3. Phone Number -->
+              <div class="form-group">
+                <label for="reg-mobile" class="input-label">Phone Number (India)</label>
+                <div class="input-field-wrapper input-with-prefix">
+                  <span class="country-prefix">+91</span>
+                  <input 
+                    type="tel" 
+                    id="reg-mobile" 
+                    name="mobile" 
+                    class="form-control" 
+                    placeholder="9876543299" 
+                    maxlength="10" 
+                    inputmode="numeric"
+                    autocomplete="off"
+                    value=""
+                    required
+                  >
+                </div>
+                <span class="field-hint" id="reg-mobile-error"></span>
+              </div>
+
+              <!-- 4. PIN -->
+              <div class="form-group">
+                <label for="reg-password" class="input-label">PIN (Numbers Only)</label>
+                <div class="input-field-wrapper">
+                  <span class="field-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                  </span>
+                  <input 
+                    type="password" 
+                    id="reg-password" 
+                    name="password" 
+                    class="form-control pin-input" 
+                    placeholder="Enter 4 to 6 digit numeric PIN" 
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    maxlength="6"
+                    autocomplete="new-password"
+                    value=""
+                    required
+                  >
+                  <button type="button" class="password-toggle-btn" data-target="reg-password" title="Toggle PIN visibility">
+                    <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <svg class="eye-closed hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                      <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                  </button>
+                </div>
+                <div class="pin-hint-box">
+                  <span class="pin-hint-icon">🔒</span>
+                  <span class="pin-hint-text">PIN must be <strong>4 to 6 numbers only</strong>. Letters and symbols cannot be entered.</span>
+                </div>
+                <span class="field-hint" id="reg-password-error"></span>
+              </div>
+
+              <!-- Confirm PIN -->
+              <div class="form-group">
+                <label for="reg-confirm-password" class="input-label">Confirm PIN</label>
+                <div class="input-field-wrapper">
+                  <span class="field-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                  </span>
+                  <input 
+                    type="password" 
+                    id="reg-confirm-password" 
+                    name="confirm_password" 
+                    class="form-control pin-input" 
+                    placeholder="Re-enter numeric PIN" 
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    maxlength="6"
+                    autocomplete="new-password"
+                    value=""
+                    required
+                  >
+                  <button type="button" class="password-toggle-btn" data-target="reg-confirm-password" title="Toggle PIN visibility">
+                    <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <svg class="eye-closed hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                      <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                  </button>
+                </div>
+                <span class="field-hint" id="reg-confirm-password-error"></span>
+              </div>
+
+              <!-- Terms Checkbox -->
+              <div class="form-checkbox-group">
+                <label class="custom-checkbox-container">
+                  <input type="checkbox" id="reg-terms" name="terms_accepted" required>
+                  <span class="checkbox-checkmark"></span>
+                  <span class="checkbox-label-text">
+                    I agree to the <a href="#" id="terms-link" class="link-bold-blue">Terms & Conditions</a> and acknowledge this is a demo prototype.
+                  </span>
+                </label>
+                <span class="field-hint" id="reg-terms-error"></span>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" id="register-submit-btn" class="btn-primary-gradient btn-block">
+                <span class="btn-text">Create Account &rarr;</span>
+                <span class="btn-spinner hidden"></span>
+              </button>
+
+              <div class="auth-switch-footer">
+                <span>Already registered?</span>
+                <button type="button" id="switch-to-login" class="link-bold-blue">Sign In</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: 3D ATM Kiosk & Floating Bank Badges -->
+      <section class="hero-col-right">
+        <div class="atm-presentation-stage">
+          
+          <!-- Orbiting Dotted Track -->
+          <div class="orbit-track-ring"></div>
+
+          <!-- Floating Bank Badges -->
+          <div class="floating-badge badge-sbi">
+            <div class="bank-logo-sbi">
+              <span class="sbi-circle"></span>
+              <span class="sbi-text">SBI</span>
+            </div>
+          </div>
+
+          <div class="floating-badge badge-hdfc">
+            <div class="bank-logo-hdfc">
+              <span class="hdfc-icon"></span>
+              <span class="hdfc-text">HDFC BANK</span>
+            </div>
+          </div>
+
+          <div class="floating-badge badge-icici">
+            <div class="bank-logo-icici">
+              <span class="icici-i">i</span>
+              <span class="icici-text">ICICI Bank</span>
+            </div>
+          </div>
+
+          <div class="floating-badge badge-axis">
+            <div class="bank-logo-axis">
+              <span class="axis-triangle">▲</span>
+              <span class="axis-text">AXIS BANK</span>
+            </div>
+          </div>
+
+          <div class="floating-badge badge-more">
+            <div class="bank-logo-more">
+              <span class="dots-more">•••</span>
+              <span class="more-text">& More</span>
+            </div>
+          </div>
+
+          <!-- 3D ATM Visual Graphic -->
+          <div class="atm-kiosk-visual">
+            <img src="/static/assets/atm_kiosk.jpg" alt="3D Cardless ATM Kiosk" class="kiosk-img" loading="eager">
+          </div>
+        </div>
+
+        <div class="col-footer-slogan">
+          ANYTIME &nbsp;|&nbsp; ANYWHERE &nbsp;|&nbsp; FOR A BRIGHTER YOU
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+
+  <!-- ==================== MAIN DASHBOARD LAYOUT ==================== -->
+  <div id="dashboard-section" class="dashboard-layout hidden">
+    
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <div class="brand-icon-sq sm">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+              <rect x="2" y="5" width="20" height="14" rx="3"></rect>
+              <line x1="2" y1="10" x2="22" y2="10"></line>
+              <circle cx="7" cy="15" r="1"></circle>
+              <circle cx="11" cy="15" r="1"></circle>
+            </svg>
+          </div>
+          <div class="brand-titles">
+            <span class="brand-main-title">ATM APP</span>
+            <span class="brand-sub-title">CARDLESS V1</span>
+          </div>
+        </div>
+        <button id="sidebar-close-btn" class="sidebar-close-btn mobile-only" aria-label="Close sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">NAVIGATION</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <button class="nav-link active" id="nav-dashboard">
+              <span class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="14" width="7" height="7"></rect>
+                  <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+              </span>
+              <span class="nav-text">Dashboard</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" id="nav-my-banks" data-feature="My Banks">
+              <span class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4"></path>
+                </svg>
+              </span>
+              <span class="nav-text">My Banks</span>
+              <span class="nav-badge">3</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="avatar-circle" id="sidebar-user-avatar">VK</div>
+          <div class="user-meta">
+            <span class="user-name" id="sidebar-user-name">Vishnu</span>
+            <div class="user-email-wrap" style="display: flex; align-items: center; gap: 5px; max-width: 100%;">
+              <span class="user-email" id="sidebar-user-email">vishnu@gmail.com</span>
+              <button type="button" id="sidebar-edit-email-btn" title="Edit email address" style="background: none; border: none; padding: 2px; cursor: pointer; color: var(--text-muted); display: inline-flex; align-items: center; flex-shrink: 0; opacity: 0.7; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <button id="sidebar-logout-btn" class="btn-logout" title="Sign Out">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-viewport">
+      
+      <!-- Top Navigation Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <button id="mobile-menu-toggle" class="mobile-toggle-btn mobile-only" aria-label="Toggle menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="header-brand-title">
+            <h1 class="header-app-name">ATM APP</h1>
+            <span class="header-breadcrumb">/ Multi-Bank Overview</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="header-user-badge">
+            <div class="avatar-xs" id="header-user-avatar">VK</div>
+            <span class="header-user-display" id="header-user-name">Vishnu</span>
+          </div>
+          <button id="top-logout-btn" class="btn-header-action" title="Logout">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard Scrollable Body -->
+      <div class="dashboard-scrollable">
+        
+        <!-- Real-Time ATM OTP Security Alert Banner (Simulated 2FA Delivery) -->
+        <div id="atm-otp-notification" class="atm-otp-alert-card hidden">
+          <div class="alert-pulse-col">
+            <div class="alert-pulse-indicator">
+              <span class="pulse-ring"></span>
+              <span class="pulse-core"></span>
+            </div>
+          </div>
+          <div class="alert-content-group">
+            <div class="alert-header-row">
+              <div class="alert-badge-group">
+                <span class="badge-pill badge-live">🔔 DEMO 2FA NOTIFICATION</span>
+                <span class="badge-pill badge-atm-id" id="notif-atm-id">ATM-BLR-042</span>
+              </div>
+              <div class="alert-timer" id="notif-timer-wrap">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>Expires in <strong id="notif-timer">05:00</strong></span>
+              </div>
+            </div>
+            <div class="alert-body-row">
+              <div class="alert-message">
+                <h4 class="alert-title">Cash Withdrawal Authorization Code</h4>
+                <p class="alert-desc">An active ATM kiosk requested authorization for your account. Enter this 6-digit OTP on the ATM terminal screen:</p>
+              </div>
+              <div class="alert-otp-display">
+                <span class="otp-code-text" id="notif-otp-code">------</span>
+                <button type="button" class="btn-copy-otp" id="btn-copy-otp" title="Copy OTP to Clipboard">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span id="copy-btn-text">Copy</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Welcome Hero Banner -->
+        <section class="welcome-hero">
+          <div class="welcome-text-group">
+            <h2 class="greeting-main" id="dash-greeting">Welcome back, Vishnu</h2>
+            <p class="greeting-sub">Access and monitor your linked bank accounts securely from one unified cardless ATM terminal.</p>
+          </div>
+          <div class="welcome-action-group">
+            <div class="welcome-profile-circle" title="Profile">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- Summary Cards Grid -->
+        <section class="summary-cards-grid" aria-label="Dashboard Metrics">
+          
+          <!-- Card 1: Linked Banks -->
+          <div class="stat-card">
+            <div class="stat-icon-wrapper icon-blue">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4"></path>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-label">Linked Banks</span>
+              <div class="stat-value" id="stat-linked-banks">3</div>
+              <span class="stat-subtext">Verified Partner Institutions</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Active Accounts -->
+          <div class="stat-card">
+            <div class="stat-icon-wrapper icon-cyan">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                <line x1="2" y1="10" x2="22" y2="10"></line>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-label">Active Accounts</span>
+              <div class="stat-value" id="stat-active-accounts">3</div>
+              <span class="stat-subtext">Ready for Cardless Cash</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Today's Transactions -->
+          <div class="stat-card">
+            <div class="stat-icon-wrapper icon-emerald">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-label">Today's Transactions</span>
+              <div class="stat-value" id="stat-today-txns">0</div>
+              <span class="stat-subtext">Daily limit usage: 0%</span>
+            </div>
+          </div>
+
+          <!-- Card 4: Security Status -->
+          <div class="stat-card card-security">
+            <div class="stat-icon-wrapper icon-shield">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <polyline points="9 12 11 14 15 10"></polyline>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-label">Security Status</span>
+              <div class="stat-value text-success" id="stat-security-status">Protected ✓</div>
+              <span class="stat-subtext">End-to-End Encrypted</span>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- Section: MY BANKS -->
+        <section class="content-section" id="section-my-banks">
+          <div class="section-header-row">
+            <div>
+              <h3 class="section-title">My Banks</h3>
+              <p class="section-subtitle">Simulated demo bank accounts linked for cardless ATM cash withdrawals.</p>
+            </div>
+            <button id="add-bank-btn" class="btn-primary-sm">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>+ Add Bank</span>
+            </button>
+          </div>
+
+          <!-- Bank Cards Container -->
+          <div id="banks-grid" class="banks-grid">
+            <!-- Populated dynamically by app.js -->
+          </div>
+        </section>
+
+
+        <!-- Two Columns: Recent Transactions & Security Status -->
+        <div class="content-split-grid">
+          
+          <!-- RECENT TRANSACTIONS SECTION -->
+          <section class="content-section card-wrapper-panel">
+            <div class="panel-header">
+              <div>
+                <h3 class="panel-title">Recent Transactions</h3>
+                <p class="panel-subtitle">Cardless ATM withdrawal history</p>
+              </div>
+              <span class="badge-neutral">Live Feed</span>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state-card">
+              <div class="empty-icon-circle">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+              <h4 class="empty-title">No transactions yet.</h4>
+              <p class="empty-desc">Your ATM transactions will appear here.</p>
+              <div class="prototype-notice-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span>Cardless ATM withdrawals will be available in Version 2.</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- SECURITY STATUS SECTION -->
+          <section class="content-section card-wrapper-panel">
+            <div class="panel-header">
+              <div>
+                <h3 class="panel-title">Security Status</h3>
+                <p class="panel-subtitle">Identity & cryptographic protection</p>
+              </div>
+              <span class="badge-status-green">Optimal</span>
+            </div>
+
+            <div class="security-panel-body">
+              <div class="security-shield-hero">
+                <div class="shield-badge-icon">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <polyline points="9 12 11 14 15 10"></polyline>
+                  </svg>
+                </div>
+                <div class="shield-hero-text">
+                  <span class="shield-headline">Multi-Bank Shield Active</span>
+                  <span class="shield-subtext">Continuous zero-trust session validation</span>
+                </div>
+              </div>
+
+              <div class="security-checklist">
+                <div class="security-check-item">
+                  <div class="check-icon-box">✓</div>
+                  <div class="check-item-info">
+                    <span class="check-item-title">Account Protected</span>
+                    <span class="check-item-desc">Multi-factor ready session with anti-tampering guards</span>
+                  </div>
+                </div>
+
+                <div class="security-check-item">
+                  <div class="check-icon-box">✓</div>
+                  <div class="check-item-info">
+                    <span class="check-item-title">Password Encrypted</span>
+                    <span class="check-item-desc">Salted bcrypt cryptographic hashing at rest</span>
+                  </div>
+                </div>
+
+                <div class="security-check-item">
+                  <div class="check-icon-box">✓</div>
+                  <div class="check-item-info">
+                    <span class="check-item-title">Registered Device</span>
+                    <span class="check-item-desc">Hardware signature verified for current browser session</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="security-footer-info">
+                <span>Prototype Environment Notice: Banking details are simulated for demonstration. Real credentials, PINs, and CVVs are strictly prohibited.</span>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== GENERIC MODAL DIALOG ==================== -->
+  <div id="app-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="modal-title" class="modal-title">Feature Notice</h3>
+        <button id="modal-close-btn" class="modal-close-btn" aria-label="Close dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div id="modal-body" class="modal-body">
+        <!-- Dynamic content -->
+      </div>
+      <div class="modal-footer">
+        <button id="modal-confirm-btn" class="btn-primary-gradient">Acknowledge</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js?v=3.1"></script>
+</body>
+</html>
