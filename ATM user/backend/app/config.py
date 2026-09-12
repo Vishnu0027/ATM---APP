@@ -32,8 +32,8 @@ for env_candidate in [BASE_DIR / ".env", BASE_DIR.parent / ".env"]:
 MONGODB_URI = os.getenv(
     "MONGODB_URI",
     "mongodb+srv://vishnunishath525_db_user:TjcI0KczUDZmTYuZ@cluster0.i4rr7aw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-)
-MONGODB_DB_NAME = os.getenv("MONGODB_DB_NAME", "UniCash")
+).strip().strip("'\"")
+MONGODB_DB_NAME = os.getenv("MONGODB_DB_NAME", "UniCash").strip().strip("'\"")
 
 # JWT / Security Configuration
 JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "atm-unicash-super-secret-key-prod-change-2026")

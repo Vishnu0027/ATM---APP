@@ -30,45 +30,63 @@ class SQLiteCollection:
         conn.row_factory = sqlite3.Row
         return conn
 
+    def _build_where(self, query):
+        if not query:
+            return "", []
+        conditions = []
+        params = []
+
+        if "$or" in query:
+            or_clauses = []
+            for sub in query["$or"]:
+                sub_conds = []
+                for k, v in sub.items():
+                    col = "id" if k == "_id" else k
+                    if isinstance(v, dict) and "$regex" in v:
+                        import re
+                        pattern = v["$regex"].lstrip("^").rstrip("$")
+                        pattern = re.sub(r"\\(.)", r"\1", pattern)
+                        sub_conds.append(f"LOWER({col}) = LOWER(?)")
+                        params.append(pattern)
+                    elif isinstance(v, dict) and "$in" in v:
+                        placeholders = ", ".join(["?"] * len(v["$in"]))
+                        sub_conds.append(f"{col} IN ({placeholders})")
+                        params.extend([str(x) for x in v["$in"]])
+                    else:
+                        sub_conds.append(f"{col} = ?")
+                        params.append(str(v))
+                if sub_conds:
+                    or_clauses.append(" AND ".join(sub_conds))
+            if or_clauses:
+                conditions.append(f"({' OR '.join(or_clauses)})")
+
+        for k, v in query.items():
+            if k == "$or":
+                continue
+            col = "id" if k == "_id" else k
+            if isinstance(v, dict) and "$regex" in v:
+                import re
+                pattern = v["$regex"].lstrip("^").rstrip("$")
+                pattern = re.sub(r"\\(.)", r"\1", pattern)
+                conditions.append(f"LOWER({col}) = LOWER(?)")
+                params.append(pattern)
+            elif isinstance(v, dict) and "$in" in v:
+                placeholders = ", ".join(["?"] * len(v["$in"]))
+                conditions.append(f"{col} IN ({placeholders})")
+                params.extend([str(x) for x in v["$in"]])
+            else:
+                conditions.append(f"{col} = ?")
+                params.append(str(v))
+
+        where_sql = f"WHERE {' AND '.join(conditions)}" if conditions else ""
+        return where_sql, params
+
     def find_one(self, query):
         conn = self._get_conn()
         cur = conn.cursor()
         try:
-            if not query:
-                cur.execute(f"SELECT * FROM {self.table_name} LIMIT 1")
-                row = cur.fetchone()
-                return dict(row) if row else None
-
-            conditions = []
-            params = []
-
-            if "$or" in query:
-                or_clauses = []
-                for sub in query["$or"]:
-                    for k, v in sub.items():
-                        if isinstance(v, dict) and "$regex" in v:
-                            import re
-                            pattern = v["$regex"].lstrip("^").rstrip("$")
-                            pattern = re.sub(r"\\(.)", r"\1", pattern)
-                            or_clauses.append(f"LOWER({k}) = LOWER(?)")
-                            params.append(pattern)
-                        else:
-                            or_clauses.append(f"{k} = ?")
-                            params.append(str(v))
-                conditions.append(f"({' OR '.join(or_clauses)})")
-
-            for k, v in query.items():
-                if k == "$or":
-                    continue
-                if k == "_id":
-                    conditions.append("id = ?")
-                    params.append(str(v))
-                else:
-                    conditions.append(f"{k} = ?")
-                    params.append(str(v))
-
-            where_sql = " AND ".join(conditions) if conditions else "1=1"
-            sql = f"SELECT * FROM {self.table_name} WHERE {where_sql} LIMIT 1"
+            where_sql, params = self._build_where(query)
+            sql = f"SELECT * FROM {self.table_name} {where_sql} LIMIT 1"
             cur.execute(sql, params)
             row = cur.fetchone()
             if not row:
@@ -83,19 +101,7 @@ class SQLiteCollection:
         conn = self._get_conn()
         cur = conn.cursor()
         try:
-            query = query or {}
-            conditions = []
-            params = []
-
-            for k, v in query.items():
-                if k == "_id":
-                    conditions.append("id = ?")
-                    params.append(str(v))
-                else:
-                    conditions.append(f"{k} = ?")
-                    params.append(str(v))
-
-            where_sql = f"WHERE {' AND '.join(conditions)}" if conditions else ""
+            where_sql, params = self._build_where(query)
             sql = f"SELECT * FROM {self.table_name} {where_sql}"
             cur.execute(sql, params)
             rows = cur.fetchall()
@@ -109,7 +115,16 @@ class SQLiteCollection:
             conn.close()
 
     def count_documents(self, query=None):
-        return len(self.find(query))
+        conn = self._get_conn()
+        cur = conn.cursor()
+        try:
+            where_sql, params = self._build_where(query)
+            sql = f"SELECT COUNT(*) as count FROM {self.table_name} {where_sql}"
+            cur.execute(sql, params)
+            row = cur.fetchone()
+            return row["count"] if row else 0
+        finally:
+            conn.close()
 
     def insert_one(self, doc):
         conn = self._get_conn()
@@ -164,7 +179,8 @@ class ResilientDatabase:
         self.atlas_client = None
         self.atlas_db = None
         self.atlas_available = False
-        self._try_connect_atlas()
+        self.last_atlas_error = None
+        self._connect_atlas(raise_on_error=False)
 
         # Local SQLite fallback collections
         self._sqlite_users = SQLiteCollection(SQLITE_PATH, "users")
@@ -236,60 +252,81 @@ class ResilientDatabase:
         conn.commit()
         conn.close()
 
-    def _try_connect_atlas(self):
+    def _connect_atlas(self, raise_on_error=False):
+        """Establish or refresh MongoDB Atlas connection."""
+        if self.atlas_client is not None and self.atlas_db is not None and self.atlas_available:
+            return self.atlas_db
+
         try:
+            # Resilient timeout for serverless environments (10 seconds)
             client = pymongo.MongoClient(
                 MONGODB_URI,
                 tlsCAFile=certifi.where(),
-                serverSelectionTimeoutMS=2500,
-                connectTimeoutMS=2500
+                serverSelectionTimeoutMS=10000,
+                connectTimeoutMS=10000,
+                socketTimeoutMS=20000,
+                maxPoolSize=50,
+                minPoolSize=0,
+                retryWrites=True,
+                appName="UniCash-ATM"
             )
-            # Quick ping check
+            # Ping Atlas to verify connection is alive
             client.admin.command("ping")
             self.atlas_client = client
             self.atlas_db = client[MONGODB_DB_NAME]
             self.atlas_available = True
+            self.last_atlas_error = None
             print(f"[*] Connected to MongoDB Atlas '{MONGODB_DB_NAME}' successfully!")
+            return self.atlas_db
         except Exception as e:
             self.atlas_available = False
-            print(f"[!] MongoDB Atlas currently unreachable ({type(e).__name__}). Using local high-performance SQLite engine.")
+            self.last_atlas_error = f"{type(e).__name__}: {e}"
+            is_vercel = bool(os.getenv("VERCEL") or os.getenv("VERCEL_ENV") or os.getenv("NOW_REGION"))
+            print(f"[!] MongoDB Atlas connection failed ({type(e).__name__}): {e}")
+            if raise_on_error or is_vercel:
+                raise RuntimeError(
+                    f"MongoDB Atlas connection required on Vercel/Production, but failed ({type(e).__name__}): {e}. "
+                    f"Please verify: 1) MONGODB_URI in Vercel settings, 2) MongoDB Atlas Network Access whitelist allows 0.0.0.0/0."
+                ) from e
+            return None
+
+    def _get_coll(self, name, sqlite_fallback_coll):
+        """Retrieve MongoDB Atlas collection, reconnecting if needed. Enforces MongoDB on Vercel."""
+        is_vercel = bool(os.getenv("VERCEL") or os.getenv("VERCEL_ENV") or os.getenv("NOW_REGION"))
+        # On Vercel or when MONGODB_URI is provided, strictly enforce MongoDB Atlas
+        if is_vercel or bool(os.getenv("MONGODB_URI")):
+            if not self.atlas_available or self.atlas_db is None:
+                self._connect_atlas(raise_on_error=True)
+            if self.atlas_db is not None:
+                return self.atlas_db[name]
+            raise RuntimeError(
+                f"MongoDB Atlas collection '{name}' unavailable on Vercel. Error: {self.last_atlas_error}"
+            )
+
+        # Local development offline fallback: try connecting first
+        if not self.atlas_available or self.atlas_db is None:
+            self._connect_atlas(raise_on_error=False)
+
+        if self.atlas_available and self.atlas_db is not None:
+            return self.atlas_db[name]
+
+        return sqlite_fallback_coll
 
     @property
     def users(self):
-        if self.atlas_available:
-            try:
-                # Test connectivity
-                return self.atlas_db.users
-            except Exception:
-                self.atlas_available = False
-        return self._sqlite_users
+        return self._get_coll("users", self._sqlite_users)
 
     @property
     def linked_banks(self):
-        if self.atlas_available:
-            try:
-                return self.atlas_db.linked_banks
-            except Exception:
-                self.atlas_available = False
-        return self._sqlite_banks
+        return self._get_coll("linked_banks", self._sqlite_banks)
 
     @property
     def atm_sessions(self):
-        if self.atlas_available:
-            try:
-                return self.atlas_db.atm_sessions
-            except Exception:
-                self.atlas_available = False
-        return self._sqlite_sessions
+        return self._get_coll("atm_sessions", self._sqlite_sessions)
 
     @property
     def atm_otps(self):
-        if self.atlas_available:
-            try:
-                return self.atlas_db.atm_otps
-            except Exception:
-                self.atlas_available = False
-        return self._sqlite_otps
+        return self._get_coll("atm_otps", self._sqlite_otps)
 
 
 # Instantiate singleton database
@@ -297,7 +334,7 @@ db = ResilientDatabase()
 
 def init_db():
     """Verify database status."""
-    db._try_connect_atlas()
+    db._connect_atlas(raise_on_error=bool(os.getenv("VERCEL") or os.getenv("VERCEL_ENV")))
 
 def get_db():
     """FastAPI dependency providing active database instance."""
