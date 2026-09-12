@@ -9,8 +9,8 @@
 // ============================================================================
 // Automatically use backend URL:
 // - Relative path when running directly on port 8000
-// - Full URL http://127.0.0.1:8000 when running on standalone port (e.g. 8080)
-const API_BASE = (window.location.port === "8000") ? "" : "http://127.0.0.1:8000";
+// - Full URL https://atm-app-vishnu.vercel.app when running on standalone port (e.g. 8080)
+const API_BASE = (window.location.port === "8000") ? "" : "https://atm-app-vishnu.vercel.app";
 
 const atmState = {
   sessionId: null,
