@@ -7,8 +7,18 @@ from datetime import datetime, timezone
 from bson.objectid import ObjectId
 from backend.app.config import MONGODB_URI, MONGODB_DB_NAME, BASE_DIR
 
-SQLITE_PATH = BASE_DIR / "database" / "atm_app.db"
-SQLITE_PATH.parent.mkdir(parents=True, exist_ok=True)
+import tempfile
+from pathlib import Path
+
+# In serverless environments (Vercel), local filesystem is read-only except /tmp
+if os.getenv("VERCEL"):
+    SQLITE_PATH = Path(tempfile.gettempdir()) / "atm_app.db"
+else:
+    SQLITE_PATH = BASE_DIR / "database" / "atm_app.db"
+    try:
+        SQLITE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        SQLITE_PATH = Path(tempfile.gettempdir()) / "atm_app.db"
 
 class SQLiteCollection:
     def __init__(self, db_path, table_name):
