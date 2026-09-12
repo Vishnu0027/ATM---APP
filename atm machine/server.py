@@ -62,6 +62,14 @@ class ATMServerHandler(SimpleHTTPRequestHandler):
             self.serve_file("index.html", "text/html; charset=utf-8")
             return
 
+        if clean_path in ["/styles.css", "styles.css"]:
+            self.serve_file("styles.css", "text/css; charset=utf-8")
+            return
+
+        if clean_path in ["/atm.js", "atm.js"]:
+            self.serve_file("atm.js", "application/javascript; charset=utf-8")
+            return
+
         # Route /atm-static/<filename> to local folder
         if clean_path.startswith("/atm-static/"):
             rel_file = clean_path[len("/atm-static/"):]

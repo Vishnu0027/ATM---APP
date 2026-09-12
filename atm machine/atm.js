@@ -169,27 +169,34 @@ async function atmApi(endpoint, method = "GET", body = null) {
 // ============================================================================
 // SCREEN SWITCHER
 // ============================================================================
-const screens = {
-  home: document.getElementById("screen-home"),
-  mobile: document.getElementById("screen-mobile"),
-  pin: document.getElementById("screen-pin"),
-  otp: document.getElementById("screen-otp"),
-  bankSelect: document.getElementById("screen-bank-select"),
-  bankPin: document.getElementById("screen-bank-pin"),
-  amount: document.getElementById("screen-amount"),
-  confirm: document.getElementById("screen-confirm"),
-  success: document.getElementById("screen-success")
+const screenIdMap = {
+  home: "screen-home",
+  mobile: "screen-mobile",
+  pin: "screen-pin",
+  otp: "screen-otp",
+  bankSelect: "screen-bank-select",
+  bankPin: "screen-bank-pin",
+  amount: "screen-amount",
+  confirm: "screen-confirm",
+  success: "screen-success"
 };
 
+function getScreenElement(key) {
+  return document.getElementById(screenIdMap[key]);
+}
+
 function switchScreen(targetScreenKey) {
-  Object.keys(screens).forEach(key => {
-    if (screens[key]) {
+  Object.keys(screenIdMap).forEach(key => {
+    const el = getScreenElement(key);
+    if (el) {
       if (key === targetScreenKey) {
-        screens[key].classList.remove("hidden");
-        screens[key].classList.add("active-screen");
+        el.classList.remove("hidden");
+        el.classList.add("active-screen");
+        el.style.display = "flex";
       } else {
-        screens[key].classList.add("hidden");
-        screens[key].classList.remove("active-screen");
+        el.classList.add("hidden");
+        el.classList.remove("active-screen");
+        el.style.display = "none";
       }
     }
   });
@@ -1046,7 +1053,13 @@ function resetToHome() {
 // ============================================================================
 // INITIALIZATION ON LOAD
 // ============================================================================
-window.addEventListener("DOMContentLoaded", () => {
+function initATM() {
   initKioskClock();
   switchScreen("home");
-});
+}
+
+if (document.readyState === "loading") {
+  window.addEventListener("DOMContentLoaded", initATM);
+} else {
+  initATM();
+}

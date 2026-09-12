@@ -217,6 +217,7 @@ body.atm-body {
   animation: fadeInScreen 0.28s ease forwards;
 }
 
+.hidden,
 .atm-screen.hidden {
   display: none !important;
 }
